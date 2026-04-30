@@ -63,6 +63,18 @@ Verified live in development:
 - `wp_fc_subscriber_meta` — `subscriber_id`, `object_type`, `key`, `value`. Custom fields use `object_type = 'custom_field'`.
 - Custom field *definitions* live in the `_fluentcrm_contact_custom_fields` WP option (read via `fluentcrm_get_custom_contact_fields()`), not in a database table. Each definition has `slug`, `type`, `label`, `value_type`, optionally `group`.
 
+## Extension hooks
+
+### `fcr_excluded_field_slugs` (added v0.2.0)
+
+`fcr_get_custom_fields()` passes its return value through this filter, giving other plugins a way to remove contact custom field slugs from rollup configuration and computation. Used by `fluentcrm-contact-enrichment`, which mirrors company-side values onto every linked contact — aggregating those mirrored values across contacts would always return the same value and be meaningless.
+
+```php
+add_filter( 'fcr_excluded_field_slugs', function ( $slugs ) {
+    return array_merge( $slugs, array( 'org_type', 'org_sector', /* ... */ ) );
+} );
+```
+
 ## What this plugin does NOT do
 
 - Does not write to FluentCRM company custom fields. The rollup is read-only and computed at view time.

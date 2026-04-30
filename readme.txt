@@ -4,7 +4,7 @@ Tags: fluentcrm, crm, companies, rollup, aggregation
 Requires at least: 5.8
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 0.1.0
+Stable tag: 0.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -54,6 +54,9 @@ No. Rollups are computed at view time. The plugin only writes to two WordPress o
 Not in this version. FluentCRM does not expose extension points for company list columns or segment filters that would allow virtual fields to appear there.
 
 == Changelog ==
+
+= 0.2.0 =
+* New filter: `fcr_excluded_field_slugs` lets other plugins remove specific contact custom field slugs from rollup configuration and computation. Useful for fields whose values are mirrored from the company record (e.g. enrichment fields), where aggregating across contacts would always return the mirrored value and be meaningless.
 
 = 0.1.0 =
 * Initial release.

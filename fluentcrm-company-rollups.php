@@ -7,7 +7,7 @@
  * Author URI:      https://wemakegood.org
  * Text Domain:     fluentcrm-company-rollups
  * Domain Path:     /languages
- * Version:         0.1.0
+ * Version:         0.2.0
  * License:         GPL-2.0-or-later
  * License URI:     https://www.gnu.org/licenses/gpl-2.0.html
  * Requires Plugins: fluent-crm
@@ -28,6 +28,12 @@ const FCR_NONCE       = 'fcr_save_settings';
  * Returns the FluentCRM contact custom field definitions, keyed by slug.
  * Empty array if FluentCRM is unavailable.
  *
+ * The list passes through the `fcr_excluded_field_slugs` filter, which
+ * other plugins can hook to remove slugs that don't make sense to
+ * aggregate (e.g. enrichment fields whose values are mirrored from
+ * the company record and would always be the same across linked
+ * contacts).
+ *
  * @return array<string, array<string, mixed>>
  */
 function fcr_get_custom_fields() {
@@ -44,6 +50,20 @@ function fcr_get_custom_fields() {
 			}
 		}
 	}
+
+	/**
+	 * Filter the list of contact custom field slugs that should be
+	 * excluded from rollup configuration and computation.
+	 *
+	 * @param array<int, string> $excluded_slugs  Slugs to exclude.
+	 */
+	$excluded = apply_filters( 'fcr_excluded_field_slugs', array() );
+	if ( ! empty( $excluded ) && is_array( $excluded ) ) {
+		foreach ( $excluded as $slug ) {
+			unset( $indexed[ $slug ] );
+		}
+	}
+
 	return $indexed;
 }
 
