@@ -40,7 +40,7 @@ The plugin uses `FluentCrmApi('extender')->addCompanyProfileSection()` rather th
 
 ### No currency formatting
 
-Eden's giving fields are stored as integers. FluentCRM has no currency support. The plugin formats numeric values with thousands separators only — no symbol, no fixed decimals. If the value rounds cleanly to an integer it displays without decimals; otherwise two-decimal precision.
+FluentCRM has no currency support, so the plugin formats numeric values with thousands separators only — no symbol, no fixed decimals. If the value rounds cleanly to an integer it displays without decimals; otherwise two-decimal precision. (The original use case stored donor giving amounts as integers, hence the integer-friendly formatting; the same formatting is appropriate for any numeric custom field.)
 
 ## Files
 
